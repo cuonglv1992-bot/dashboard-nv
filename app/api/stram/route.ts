@@ -286,42 +286,50 @@ const stramGroups = [
     ...tgddGroups,
   ]),
 ];
-    const data = rows
+rows.slice(0,10).forEach((r,i)=>{
+  console.log(
+    "CHECK",
+    i,
+    "C=", r[2],
+    "D=", r[3],
+    "E=", r[4]
+  );
+});
+   const data = rows
   .slice(1)
-  .filter(
-    (r) =>
-      stramGroups.includes(
-        String(r[2] || "").trim()
-      )
-  )
-  .filter(
-    (r) =>
-      r[3] &&
-      String(r[3]).trim() !== "Tổng"
-  )
+  .filter((r) => {
+    const employee = String(r[4] || "").trim();
+
+    return (
+      employee.includes("-") ||
+      employee.includes("Nhân viên")
+    );
+  })
   .map((r) => ({
-    groupName: String(r[1] || "").trim(),
+    groupName: String(r[2] || "").trim(),
+    shortName: String(r[3] || "").trim(),
+    employee: String(r[4] || "").trim(),
 
-    shortName: String(r[2] || "").trim(),
-
-    employee: String(r[3] || "").trim(),
-
-    targetMonth: Number(r[5] || 0),
-
-    actualMonth: Number(r[6] || 0),
-
-    forecastMonth: Number(r[7] || 0),
-
-    remainMonth: Number(r[8] || 0),
-
-    percentMonth: Number(r[9] || 0),
-
-    targetWeek: Number(r[11] || 0),
-
-    actualWeek: Number(r[17] || 0),
-
-    percentWeek: Number(r[18] || 0),
+    targetWeek: Number(r[12] || 0),
+    actualWeek: Number(r[18] || 0),
+    percentWeek: Number(r[19] || 0),
   }));
+
+  console.log(
+  "DATA SAMPLE",
+  data.slice(0, 20)
+);
+
+  console.log(
+  "DATA SAMPLE",
+  data.slice(0,20)
+);
+
+console.log(
+  "DATA COUNT",
+  data.length
+);
+
   const dmlResults = thiduaRows
   .slice(1, 40)
   .filter(
@@ -440,6 +448,11 @@ emp.groups.push({
 
   percent: item.percentWeek,
 });
+
+console.log(
+  "EMPLOYEE MAP",
+  Array.from(employeeMap.keys()).slice(0,20)
+);
     });
 const employees =
   Array.from(
@@ -497,21 +510,79 @@ console.log(
 const dmlEmployeeNames = kbRows
   .slice(0, 40)
   .map((r) => String(r[8] || "").trim())
-  .filter(Boolean);
+  .filter(
+    (name) =>
+      name &&
+      name !== "Nhân viên Mới 1" &&
+      name !== "Nhân viên Mới 2"
+  );
+
+dmlEmployeeNames.push(
+  "Nhân viên Mới 1",
+  "Nhân viên Mới 2"
+);
 
 const tgddEmployeeNames = kbRows
   .slice(49, 75)
   .map((r) => String(r[8] || "").trim())
   .filter(Boolean);
 
+const employeeStoreMap = new Map();
+
+kbRows.forEach((row) => {
+  const name = String(row[8] || "").trim();
+
+  const store = String(
+    row[34] || ""
+  )
+    .trim()
+    .toUpperCase();
+
+  if (name) {
+    employeeStoreMap.set(
+      name,
+      store
+    );
+  }
+});
+
+console.log(
+  "NV MỚI 1 STORE",
+  employeeStoreMap.get(
+    "Nhân viên Mới 1"
+  )
+);
+
+console.log(
+  "NV MỚI 2 STORE",
+  employeeStoreMap.get(
+    "Nhân viên Mới 2"
+  )
+);
+kbRows.forEach((row) => {
+  if (
+    String(row[8] || "").includes("Nhân viên")
+  ) {
+    console.log(
+      "NEW STAFF ROW",
+      row[8],
+      "STORE=",
+      row[34]
+    );
+  }
+});
 const dmlEmployees = employees.filter(
   (e: any) =>
-    dmlEmployeeNames.includes(e.name)
+    employeeStoreMap.get(
+      e.name
+    ) === "DML"
 );
 
 const tgddEmployees = employees.filter(
   (e: any) =>
-    tgddEmployeeNames.includes(e.name)
+    employeeStoreMap.get(
+      e.name
+    ) === "TGDD"
 );
 
 return NextResponse.json({
@@ -523,7 +594,6 @@ return NextResponse.json({
   dmlEmployees,
   tgddEmployees,
 });
-
     } catch (error) {
     return NextResponse.json({
       success: false,

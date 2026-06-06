@@ -323,6 +323,13 @@ fullNameToShortName.set(
 
     percentWeek: Number(r[19] || 0),        // T
   }));
+console.log(
+  "NEW STAFF IN DATA",
+  data.filter(
+    (x) =>
+      x.employee.includes("Nhân viên")
+  )
+);
 
   console.log(
   "EMPLOYEE SAMPLE",
@@ -595,6 +602,19 @@ const tgddEmployees =
     (e: any) =>
       e.store === "TGDD"
   );
+console.log(
+  "EMPLOYEE MAP KEYS",
+  Array.from(employeeMap.keys())
+);
+console.log(
+  "NV1",
+  employeeMap.get("Nhân viên Mới 1")
+);
+
+console.log(
+  "NV2",
+  employeeMap.get("Nhân viên Mới 2")
+);
 
 return NextResponse.json({
   success: true,

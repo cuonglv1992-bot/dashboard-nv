@@ -28,7 +28,7 @@ export default function StramPage() {
         {title}
       </h2>
 
-      <table className="w-full text-[11px]">
+      <table className="w-full text-[10px]">
         <thead>
           <tr className="bg-slate-100">
             <th className="p-2 text-left">
@@ -227,7 +227,7 @@ export default function StramPage() {
           STRAM DML THANH CHÂU
         </div>
 
-        <div className="grid grid-cols-[25%_75%] gap-2 mt-2">
+        <div className="grid grid-cols-[20%_80%] gap-2 mt-2">
           {renderResultTable(
             "KQ THI ĐUA DML",
             data.dmlResults
@@ -246,7 +246,7 @@ export default function StramPage() {
           STRAM TGDD ĐINH TIÊN HOÀNG
         </div>
 
-        <div className="grid grid-cols-[25%_75%] gap-2 mt-2">
+        <div className="grid grid-cols-[20%_80%] gap-2 mt-2">
           {renderResultTable(
             "KQ THI ĐUA TGDD",
             data.tgddResults
