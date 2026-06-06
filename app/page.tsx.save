@@ -1,0 +1,488 @@
+import DTQDChart from "@/components/DTQDChart";
+async function getDashboard() {
+  const res = await fetch(
+    "http://localhost:3000/api/dashboard",
+    {
+      cache: "no-store",
+    }
+  );
+
+  return res.json();
+  
+}
+
+async function getBanKem() {
+  const res = await fetch(
+    "http://localhost:3000/api/bankem",
+    {
+      cache: "no-store",
+    }
+  );
+
+  return res.json();
+}
+
+export default async function Home() {
+  const data = await getDashboard();
+  const bankem = await getBanKem();
+
+  const thiDuaRes = await fetch(
+    "http://localhost:3000/api/thidua",
+    {
+      cache: "no-store",
+    }
+  );
+
+const thiDua =
+  await thiDuaRes.json();
+
+const thiDuaGroups =
+  thiDua.groups || [];
+
+const thiDuaData =
+  thiDua.employeeThiDua || [];
+
+  return (
+    <main className="min-h-screen bg-slate-950 text-white p-6">
+      <h1 className="text-3xl font-bold mb-6">
+        📊 Dashboard Hiệu Quả Nhân Viên
+      </h1>
+
+      {/* KPI TỔNG */}
+      <div className="grid md:grid-cols-4 gap-4 mb-6">
+        <div className="bg-slate-900 rounded-xl p-4">
+          <div className="text-slate-400">
+            Doanh Thu Thực
+          </div>
+          <div className="text-3xl font-bold">
+            {data.summary.totalDTTT.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="bg-slate-900 rounded-xl p-4">
+          <div className="text-slate-400">
+            Doanh Thu Quy Đổi
+          </div>
+          <div className="text-3xl font-bold">
+            {data.summary.totalDTQD.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="bg-slate-900 rounded-xl p-4">
+          <div className="text-slate-400">
+            Tổng SL
+          </div>
+          <div className="text-3xl font-bold">
+            {data.summary.totalSL.toLocaleString()}
+          </div>
+        </div>
+
+        <div className="bg-slate-900 rounded-xl p-4">
+          <div className="text-slate-400">
+            Nhân Viên
+          </div>
+          <div className="text-3xl font-bold text-green-400">
+            {data.employees.length}
+          </div>
+        </div>
+      </div>
+
+{/* 2 CỬA HÀNG */}
+<div className="grid md:grid-cols-2 gap-4 mb-6">
+  {data.stores.map((store: any) => (
+    <div
+      key={store.name}
+      className="bg-slate-900 rounded-xl p-5"
+    >
+      <h2 className="font-bold text-xl mb-4">
+        {store.name}
+      </h2>
+
+      <div className="space-y-3 text-lg">
+
+        <div>
+          DTQĐ:
+          <span className="font-bold ml-2 text-cyan-400">
+            {store.dtqd.toLocaleString()}
+          </span>
+        </div>
+
+        <div>
+          GTĐH:
+          <span className="font-bold ml-2">
+            {store.gtdh}
+          </span>
+        </div>
+
+        <div>
+          💳 Trả chậm:
+          <span
+            className={`font-bold ml-2 ${
+              store.traChamPercent >= 30
+                ? "text-green-400"
+                : "text-red-400"
+            }`}
+          >
+            {store.traChamPercent}%
+          </span>
+        </div>
+
+      </div>
+    </div>
+  ))}
+</div>
+
+      {/* TOP DTQD */}
+      <div className="bg-slate-900 rounded-xl p-4 mb-6">
+        <h2 className="font-bold text-xl mb-4">
+          🏆 Top DTQĐ
+        </h2>
+
+        <table className="w-full">
+          <thead>
+  <tr className="border-b border-slate-700">
+    <th className="text-left py-2">
+      Nhân viên
+    </th>
+
+    <th className="text-left py-2">
+      Cửa hàng
+    </th>
+
+    <th className="text-right py-2">
+      DTQĐ
+    </th>
+
+    <th className="text-right py-2">
+      SL
+    </th>
+
+    <th className="text-right py-2">
+      GTĐH
+    </th>
+  </tr>
+</thead>
+
+          <tbody>
+  {data.topEmployees.map(
+    (nv: any, index: number) => (
+      <tr
+        key={nv.name}
+        className="border-b border-slate-800"
+      >
+        <td className="py-2">
+          #{index + 1} {nv.name}
+        </td>
+
+        <td>
+          {nv.store}
+        </td>
+
+        <td className="text-right">
+          {nv.dtqd.toLocaleString()}
+        </td>
+
+        <td className="text-right">
+          {nv.sl}
+        </td>
+
+        <td className="text-right font-bold text-cyan-400">
+          {nv.dongia}
+        </td>
+      </tr>
+    )
+  )}
+</tbody>
+        </table>
+      </div>
+{/* TOP TRẢ CHẬM */}
+<div className="bg-slate-900 rounded-xl p-4 mb-6">
+  <h2 className="font-bold text-xl mb-4">
+    🏦 Top Trả Chậm
+  </h2>
+
+  <table className="w-full">
+    <thead>
+      <tr className="border-b border-slate-700">
+        <th className="text-left py-2">
+          Nhân viên
+        </th>
+
+        <th className="text-left py-2">
+          Cửa hàng
+        </th>
+
+        <th className="text-right py-2">
+          Trả chậm
+        </th>
+
+        <th className="text-right py-2">
+          %
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {data.topTraCham?.map(
+        (nv: any, index: number) => (
+          <tr
+            key={nv.name}
+            className="border-b border-slate-800"
+          >
+            <td className="py-2">
+              #{index + 1} {nv.name}
+            </td>
+
+            <td>
+              {nv.store}
+            </td>
+
+            <td className="text-right">
+              {Number(
+                nv.traCham || 0
+              ).toLocaleString()}
+            </td>
+
+            <td
+              className={`text-right font-bold ${
+                nv.tyLeTraCham >= 30
+                  ? "text-green-400"
+                  : "text-red-400"
+              }`}
+            >
+              {Number(
+                nv.tyLeTraCham || 0
+              ).toFixed(1)}
+              %
+            </td>
+          </tr>
+        )
+      )}
+    </tbody>
+  </table>
+</div>
+{/* THI ĐUA NHÂN VIÊN */}
+
+<div className="bg-slate-900 rounded-xl p-4 mb-6 overflow-auto">
+  <h2 className="font-bold text-xl mb-4">
+    🏆 Thi Đua Nhân Viên
+  </h2>
+
+  <table className="min-w-full text-sm">
+    <thead>
+      <tr className="border-b border-slate-700">
+        <th className="sticky left-0 bg-slate-900 text-left px-2 py-2">
+          Nhân viên
+        </th>
+
+        {thiDuaGroups.map(
+          (group: string) => (
+            <th
+              key={group}
+              className="px-2 py-2 text-center whitespace-nowrap"
+            >
+              {group}
+            </th>
+          )
+        )}
+      </tr>
+    </thead>
+
+    <tbody>
+      {thiDuaData.map(
+        (nv: any) => (
+          <tr
+            key={nv.name}
+            className="border-b border-slate-800"
+          >
+            <td className="sticky left-0 bg-slate-900 px-2 py-2 whitespace-nowrap">
+              {nv.name}
+            </td>
+
+            {thiDuaGroups.map(
+              (group: string) => {
+                const value =
+                  Number(
+                    nv[group] || 0
+                  );
+
+                return (
+                  <td
+                    key={group}
+                    className={`text-center px-2 py-2 font-bold ${
+                      value >= 100
+                        ? "text-green-400"
+                        : value >= 80
+                        ? "text-yellow-400"
+                        : value > 0
+                        ? "text-red-400"
+                        : "text-slate-600"
+                    }`}
+                  >
+                    {value > 0
+                      ? `${value}%`
+                      : "-"}
+                  </td>
+                );
+              }
+            )}
+          </tr>
+        )
+      )}
+    </tbody>
+  </table>
+</div>
+      {/* TOP BÁN KÈM */}
+      <div className="bg-slate-900 rounded-xl p-4 mb-6">
+        <h2 className="font-bold text-xl mb-4">
+          🎯 Top Bán Kèm
+        </h2>
+
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-slate-700">
+              <th className="text-left py-2">
+                Nhân viên
+              </th>
+
+              <th className="text-right py-2">
+                SL Bán
+              </th>
+
+              <th className="text-right py-2">
+                SL Kèm
+              </th>
+
+              <th className="text-right py-2">
+                %
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {bankem.topBanKem?.map(
+              (nv: any, index: number) => (
+                <tr
+                  key={index}
+                  className="border-b border-slate-800"
+                >
+                  <td className="py-2">
+                    #{index + 1} {nv.name}
+                  </td>
+
+                  <td className="text-right">
+                    {nv.slBan}
+                  </td>
+
+                  <td className="text-right">
+                    {nv.slBanKem}
+                  </td>
+
+                  <td className="text-right font-bold text-green-400">
+                    {nv.tyLeSPBanKem.toFixed(1)}%
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
+
+     {/* TOÀN BỘ NHÂN VIÊN */}
+<div className="bg-slate-900 rounded-xl p-4">
+  <h2 className="font-bold text-xl mb-4">
+    👥 Toàn Bộ Nhân Viên
+  </h2>
+
+  <table className="w-full text-sm">
+    <thead>
+      <tr className="border-b border-slate-700">
+        <th className="text-left py-2">
+          Nhân viên
+        </th>
+
+        <th className="text-left py-2">
+          Cửa hàng
+        </th>
+
+        <th className="text-right py-2">
+          DT Thực
+        </th>
+
+        <th className="text-right py-2">
+          DTQĐ
+        </th>
+
+        <th className="text-right py-2">
+          HQ QĐ
+        </th>
+
+        <th className="text-right py-2">
+          Trả chậm
+        </th>
+
+        <th className="text-right py-2">
+          %HQ TC
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {data.employees.map((nv: any) => (
+        <tr
+          key={nv.name}
+          className="border-b border-slate-800"
+        >
+          <td className="py-2">
+            {nv.name}
+          </td>
+
+          <td>
+            {nv.store}
+          </td>
+
+          <td className="text-right">
+            {Number(nv.dttt).toLocaleString()}
+          </td>
+
+          <td className="text-right">
+            {Number(nv.dtqd).toLocaleString()}
+          </td>
+
+          <td className="text-right font-bold text-cyan-400">
+            {nv.dttt > 0
+              ? (
+                  (nv.dtqd /
+                    nv.dttt) *
+                  100
+                ).toFixed(1)
+              : 0}
+            %
+          </td>
+
+          <td className="text-right">
+            {Number(
+              nv.traCham || 0
+            ).toLocaleString()}
+          </td>
+
+          <td
+            className={`text-right font-bold ${
+              nv.tyLeTraCham >= 30
+                ? "text-green-400"
+                : "text-red-400"
+            }`}
+          >
+            {Number(
+              nv.tyLeTraCham || 0
+            ).toFixed(1)}
+            %
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+    </main>
+  );
+}
