@@ -347,7 +347,37 @@ const thiDuaTGDD = tdRows
         nhSheet,
         { header: 1 }
       );
+console.log(
+  "NH ROW 1",
+  nhRows[1]
+);
 
+console.log(
+  "NH ROW 2",
+  nhRows[2]
+);
+
+console.log(
+  "NH ROW 34",
+  nhRows[34]
+);
+
+console.log(
+  "NH ROW 35",
+  nhRows[35]
+);
+const today = new Date().getDate();
+
+// Số ngày đã chạy
+const elapsedDays =
+  Math.max(today - 1, 1);
+
+
+const daysInMonth = new Date(
+  new Date().getFullYear(),
+  new Date().getMonth() + 1,
+  0
+).getDate();
     // DML
     const industryDML = nhRows
       .slice(1, 20)
@@ -358,7 +388,10 @@ const thiDuaTGDD = tdRows
         dtqd: Number(r[3] || 0),
 
         target: Number(r[4] || 0),
-
+projected:
+  (Number(r[3] || 0) /
+    elapsedDays) *
+  daysInMonth,
         percent: Number(r[6] || 0),
 
         dtck: Number(r[7] || 0),
@@ -379,9 +412,12 @@ const thiDuaTGDD = tdRows
         nganh: String(r[1]).trim(),
 
         dtqd: Number(r[3] || 0),
-
+  
         target: Number(r[4] || 0),
-
+projected:
+  (Number(r[3] || 0) /
+    elapsedDays) *
+  daysInMonth,
         percent: Number(r[6] || 0),
 
         dtck: Number(r[7] || 0),
@@ -412,18 +448,7 @@ const currentDTQD =
   dmlTotal.dtqd +
   tgddTotal.dtqd;
 
-const today = new Date().getDate();
 
-// Số ngày đã chạy
-const elapsedDays =
-  Math.max(today - 1, 1);
-
-
-const daysInMonth = new Date(
-  new Date().getFullYear(),
-  new Date().getMonth() + 1,
-  0
-).getDate();
 
 const projectedDTQD =
   (currentDTQD / elapsedDays) *
@@ -458,15 +483,47 @@ const tgddProjectedPercent =
         tgddTotal.target
       ) * 100
     : 0;
-    const dmlTotalDisplay = {
+   const dmlTotalDisplay = {
   ...dmlTotal,
-  projectedPercent: dmlProjectedPercent,
+
+  projected:
+    (dmlTotal.dtqd / elapsedDays) *
+    daysInMonth,
+
+  projectedPercent:
+    dmlProjectedPercent,
 };
 
 const tgddTotalDisplay = {
   ...tgddTotal,
-  projectedPercent: tgddProjectedPercent,
+
+  projected:
+    (tgddTotal.dtqd / elapsedDays) *
+    daysInMonth,
+
+  projectedPercent:
+    tgddProjectedPercent,
 };
+
+console.log(
+  "INDUSTRY DML COUNT",
+  industryDML.length
+);
+
+console.log(
+  "INDUSTRY DML SAMPLE",
+  industryDML.slice(0,5)
+);
+
+console.log(
+  "INDUSTRY TGDD COUNT",
+  industryTGDD.length
+);
+
+console.log(
+  "INDUSTRY TGDD SAMPLE",
+  industryTGDD.slice(0,5)
+);
     return NextResponse.json({
       success: true,
 
@@ -476,7 +533,7 @@ const tgddTotalDisplay = {
   totalDTQD: currentDTQD,
 
   totalPercent,
-
+projectedDTQD,
   totalTraCham:
     (
       Number(nhRows[1]?.[10] || 0) +

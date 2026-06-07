@@ -55,52 +55,61 @@ const thiDuaTGDD =
   data.thiDuaTGDD || [];
   
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-6">
-      <h1 className="text-3xl font-bold mb-6">
+    <main className="min-h-screen bg-black text-back p-6">
+      <h1 className="text-3xl font-bold mb-6 text-white">
         📊 Dashboard Hiệu Quả Nhân Viên
       </h1>
 
       {/* KPI TỔNG */}
-      <div className="grid md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-slate-900 rounded-xl p-4">
-          <div className="text-slate-400">
+      <div className="grid md:grid-cols-5 gap-4 mb-6">
+        <div className="bg-white rounded-xl p-4">
+          <div className="text-slate-400 text-center">
             TARGET
           </div>
-          <div className="text-3xl font-bold">
+          <div className="text-3xl font-bold text-center">
             {data.summary.totalTarget.toLocaleString()}
           </div>
         </div>
 
-        <div className="bg-slate-900 rounded-xl p-4">
-          <div className="text-slate-400">
-            DTQD
+        <div className="bg-white rounded-xl p-4">
+          <div className="text-slate-400 text-center">
+            DOANH THU QUY ĐỔI
           </div>
-          <div className="text-3xl font-bold">
-            {data.summary.totalDTQD.toLocaleString()}
+          <div className="text-3xl font-bold text-center">
+            {Math.round(data.summary.totalDTQD).toLocaleString()}
           </div>
         </div>
+<div className="bg-white rounded-xl p-4">
+   <div className="text-slate-400 text-center">
+    DỰ KIẾN
+  </div>
 
-        <div className="bg-slate-900 rounded-xl p-4">
-          <div className="text-slate-400">
+  <div className="text-3xl font-bold text-center">
+{Math.round(data.summary.projectedDTQD).toLocaleString()}
+    
+  </div>
+</div>
+        <div className="bg-white rounded-xl p-4">
+          <div className="text-slate-400 text-center">
             % Hoàn Thành Dự Kiến
           </div>
-          <div className="text-3xl font-bold">
+          <div className="text-3xl font-bold text-center">
             {data.summary.totalPercent.toFixed(1) + "%".toLocaleString()}
           </div>
         </div>
 
-        <div className="bg-slate-900 rounded-xl p-4">
-          <div className="text-slate-400">
+        <div className="bg-white rounded-xl p-4">
+           <div className="text-slate-400 text-center">
             % Trả Chậm
           </div>
-          <div className="text-3xl font-bold text-green-400">
+          <div className="text-3xl font-bold text-green-400 text-center">
             {data.summary.totalTraCham.toFixed(2) + "%"}
           </div>
         </div>
       </div>
 
       <div className="mb-6">
-        <div className="bg-slate-900 rounded-xl p-5 mb-6">
+        <div className="bg-white rounded-xl p-5 mb-6">
 
           <h2 className="text-2xl font-bold mb-4">
             📈 Hiệu Quả Ngành Hàng
@@ -108,37 +117,46 @@ const thiDuaTGDD =
 
           <div className="grid md:grid-cols-2 gap-6">
 
-            <div>
+            <div className="bg-slate-50 rounded-xl border-2 border-cyan-200 p-4">
+              
               <h3 className="text-4xl font-bold text-cyan-400 mb-3">
   DML Thanh Châu
 </h3>
 
-<div className="grid grid-cols-6 gap-4 mb-4">
-
+<div className="grid grid-cols-7 gap-4 mb-5">
+ <div>
+    <div className="text-slate-400 text-sm">
+      Target
+    </div>
+    <div className="font-bold text-2xl">
+      {data.dmlTotal.target.toLocaleString()}
+    </div>
+  </div>
   <div>
     <div className="text-slate-400 text-sm">
       DTQĐ
     </div>
-    <div className="font-bold text-3xl">
-      {data.dmlTotal.dtqd}
+    <div className="font-bold text-2xl">
+      {Math.round(data.dmlTotal.dtqd).toLocaleString()}
     </div>
   </div>
 
   <div>
-    <div className="text-slate-400 text-sm">
-      Target
-    </div>
-    <div className="font-bold text-3xl">
-      {data.dmlTotal.target.toLocaleString()}
-    </div>
+  <div className="text-slate-400 text-sm">
+    Dự kiến
   </div>
+
+  <div className="text-2xl font-bold">
+    {Math.round(data.dmlTotal.projected).toLocaleString()}
+  </div>
+</div>
 
   <div>
     <div className="text-slate-400 text-sm">
       % HT DK
     </div>
     <div
-  className={`font-bold text-3xl ${
+  className={`font-bold text-2xl text-center ${
     data.dmlTotal.projectedPercent >= 100
       ? "text-green-400"
       : "text-red-400"
@@ -153,7 +171,7 @@ const thiDuaTGDD =
       Cùng kỳ
     </div>
     <div
-      className={`font-bold text-3xl ${
+      className={`font-bold text-2xl ${
         data.dmlTotal.dtck >= 0
           ? "text-green-400"
           : "text-red-400"
@@ -167,7 +185,7 @@ const thiDuaTGDD =
     <div className="text-slate-400 text-sm">
       GTĐH
     </div>
-    <div className="font-bold text-3xl">
+    <div className="font-bold text-2xl">
       {data.stores[0]?.gtdh}
     </div>
   </div>
@@ -177,7 +195,7 @@ const thiDuaTGDD =
       Trả chậm
     </div>
     <div
-      className={`font-bold text-3xl ${
+      className={`font-bold text-2xl ${
         data.stores[0]?.traChamPercent >= 15
           ? "text-green-400"
           : "text-red-400"
@@ -188,6 +206,7 @@ const thiDuaTGDD =
   </div>
 
 </div>
+
              <table className="w-full text-lg">
                 <thead>
                   <tr className="border-b border-slate-700">
@@ -256,37 +275,45 @@ const thiDuaTGDD =
               </table>
             </div>
 
-            <div>
-              <h3 className="text-4xl font-bold text-yellow-400 mb-3">
+            <div className="bg-slate-50 rounded-xl border-2 border-yellow-200 p-4">
+  <h3 className="text-4xl font-bold text-yellow-400 mb-3">
   TGDD Đinh Tiên Hoàng
 </h3>
 
-<div className="grid grid-cols-6 gap-6 mb-5">
-
-  <div>
-    <div className="text-slate-400 text-xs">
-      DTQĐ
-    </div>
-    <div className="font-bold text-3xl">
-      {data.tgddTotal.dtqd}
-    </div>
-  </div>
-
-  <div>
+<div className="grid grid-cols-7 gap-4 mb-5">
+ <div>
     <div className="text-slate-400 text-sm">
       Target
     </div>
-    <div className="font-bold text-3xl">
+    <div className="font-bold text-2xl">
       {data.tgddTotal.target.toLocaleString()}
     </div>
   </div>
+  <div>
+    <div className="text-slate-400 text-sm">
+      DTQĐ
+    </div>
+    <div className="font-bold text-2xl">
+      {Math.round(data.tgddTotal.dtqd).toLocaleString()}
+    </div>
+  </div>
+
+  <div>
+  <div className="text-slate-400 text-sm">
+    Dự kiến
+  </div>
+
+  <div className="text-2xl font-bold">
+   {Math.round(data.tgddTotal.projected).toLocaleString()}
+  </div>
+</div>
 
   <div>
     <div className="text-slate-400 text-sm">
       % HT DK
     </div>
     <div
-  className={`font-bold text-3xl ${
+  className={`font-bold text-2xl ${
     data.tgddTotal.projectedPercent >= 100
       ? "text-green-400"
       : "text-red-400"
@@ -301,7 +328,7 @@ const thiDuaTGDD =
       Cùng kỳ
     </div>
     <div
-      className={`font-bold text-3xl ${
+      className={`font-bold text-2xl ${
         data.tgddTotal.dtck >= 0
           ? "text-green-400"
           : "text-red-400"
@@ -315,7 +342,7 @@ const thiDuaTGDD =
     <div className="text-slate-400 text-sm">
       GTĐH
     </div>
-    <div className="font-bold text-3xl">
+    <div className="font-bold text-2xl">
       {data.stores[1]?.gtdh}
     </div>
   </div>
@@ -325,7 +352,7 @@ const thiDuaTGDD =
       Trả chậm
     </div>
     <div
-      className={`font-bold text-3xl ${
+      className={`font-bold text-2xl ${
         data.stores[1]?.traChamPercent >= 15
           ? "text-green-400"
           : "text-red-400"
@@ -411,7 +438,7 @@ const thiDuaTGDD =
         
           <div className="grid md:grid-cols-2 gap-4 mb-6">
         {/* TOP DTQD */}
-        <div className="bg-slate-900 rounded-xl p-4 mb-6">
+        <div className="bg-white rounded-xl p-4 mb-6">
           <h2 className="font-bold text-xl mb-4">
             🏆 Top DTQĐ
           </h2>
@@ -470,7 +497,7 @@ const thiDuaTGDD =
           </table>
         </div>
         {/* TOP TRẢ CHẬM */}
-        <div className="bg-slate-900 rounded-xl p-4 mb-6">
+        <div className="bg-white rounded-xl p-4 mb-6">
           <h2 className="font-bold text-xl mb-4">
             🏦 Top Trả Chậm
           </h2>
@@ -537,7 +564,7 @@ const thiDuaTGDD =
         </div>
 <div className="grid md:grid-cols-2 gap-4 mb-6">
 
-  <div className="bg-slate-900 rounded-xl p-4">
+  <div className="bg-white rounded-xl p-4">
     <h2 className="font-bold text-3xl mb-3 text-cyan-400">
   🏪 Thi Đua DML (
   {
@@ -550,7 +577,7 @@ const thiDuaTGDD =
   )
 </h2>
 
-    <table className="w-full text-xl">
+    <table className="w-full text-l">
       <thead>
         <tr className="border-b border-slate-700">
           <th className="text-left">Nhóm hàng</th>
@@ -608,7 +635,7 @@ const thiDuaTGDD =
     </table>
   </div>
 
-  <div className="bg-slate-900 rounded-xl p-4">
+  <div className="bg-white rounded-xl p-4">
     <h2 className="font-bold text-3xl mb-3 text-yellow-400">
   🏪 Thi Đua TGDD (
   {
@@ -621,7 +648,7 @@ const thiDuaTGDD =
   )
 </h2>
 
-    <table className="w-full text-xl">
+    <table className="w-full text-l">
       <thead>
         <tr className="border-b border-slate-700">
           <th className="text-left">Nhóm hàng</th>
@@ -684,7 +711,7 @@ const thiDuaTGDD =
 </div>
         {/* THI ĐUA NHÂN VIÊN */}
 
-        <div className="bg-slate-900 rounded-xl p-4 mb-6 overflow-auto">
+        <div className="bg-white rounded-xl p-4 mb-6 overflow-auto">
           <h2 className="font-bold text-xl mb-4">
             🏆 Thi Đua Nhân Viên
           </h2>
@@ -692,7 +719,7 @@ const thiDuaTGDD =
           <table className="min-w-full text-sm">
             <thead>
               <tr className="border-b border-slate-700">
-                <th className="sticky left-0 bg-slate-900 text-left px-2 py-2">
+                <th className="sticky left-0 bg-white text-left px-1 py-1">
                   Nhân viên
                 </th>
 
@@ -716,7 +743,7 @@ const thiDuaTGDD =
                     key={nv.name}
                     className="border-b border-slate-800"
                   >
-                    <td className="sticky left-0 bg-slate-900 px-2 py-2 whitespace-nowrap">
+                    <td className="sticky left-0 bg-white px-2 py-2 whitespace-nowrap">
                       {nv.name}
                     </td>
 
@@ -753,12 +780,12 @@ const thiDuaTGDD =
           </table>
         </div>
 
-<div className="bg-slate-900 rounded-xl p-4 mb-6">
+<div className="bg-white rounded-xl p-4 mb-6">
   <h2 className="font-bold text-xl mb-4">
     📋 Chi Tiết Thi Đua Nhân Viên
   </h2>
 
-  <div className="grid grid-cols-6 gap-2">
+  <div className="grid grid-cols-7 gap-0.5">
 
     {thiDuaData.map((nv: any) => {
 
@@ -769,15 +796,15 @@ const thiDuaTGDD =
       return (
         <div
           key={nv.name}
-          className="bg-slate-950 rounded-lg p-3 border border-slate-800"
+          className="bg-gray-100 rounded-lg p-3 border border-slate-800"
         >
-          <div className="font-bold text-cyan-400 text-sm mb-2">
+          <div className="font-bold text-cyan-400 text-xs mb-1">
             {nv.name.split("-")[0]}
           </div>
 
-          <div className="space-y-1 text-xs">
+          <div className="space-y-0 text-[10px]">
 
-  <div className="grid grid-cols-4 gap-1 text-[10px] text-slate-500 border-b border-slate-800 pb-1 mb-1">
+  <div className="grid grid-cols-4 gap-1 text-[9px] text-slate-500 border-b border-slate-800 pb-1 mb-1">
     <div>Nhóm</div>
     <div className="text-right">Target</div>
     <div className="text-right">LK</div>
@@ -795,7 +822,7 @@ const thiDuaTGDD =
         key={`${item.vietTat}-${index}`}
         className="grid grid-cols-4 gap-1"
       >
-        <div className="font-bold text-white">
+        <div className="text-black">
           {item.vietTat}
         </div>
 
@@ -829,12 +856,12 @@ const thiDuaTGDD =
   </div>
 </div>
         {/* TOÀN BỘ NHÂN VIÊN */}
-        <div className="bg-slate-900 rounded-xl p-4">
+        <div className="bg-white rounded-xl p-4">
           <h2 className="font-bold text-xl mb-4">
             👥 Toàn Bộ Nhân Viên
           </h2>
 
-          <table className="w-full text-xl">
+          <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-700">
                 <th className="text-left py-2">

@@ -32,27 +32,27 @@ console.log(rows[2]);
 console.log(rows[3]);
 console.log(rows[4]);
 console.log(rows[5]);
-    const data = rows
-    
+   const data = rows
   .slice(1)
   .filter(
-  (r) =>
-    r[3] &&
-    String(r[3]).trim() !== "Tổng"
-)
+    (r) =>
+      r[4] &&
+      String(r[4]).trim() !== "Tổng"
+  )
   .map((r) => ({
-  nhom: String(r[1] || "").trim(),
+    nhom: String(r[2] || "").trim(),
 
-  vietTat: String(r[2] || "").trim(),
+    vietTat: String(r[3] || "").trim(),
 
-  nhanVien: String(r[3] || "").trim(),
+    nhanVien: String(r[4] || "").trim(),
 
-  target: Number(r[5] || 0),
+    // THÁNG
+    target: Number(r[6] || 0),   // G
 
-  luyKe: Number(r[6] || 0),
+    luyKe: Number(r[7] || 0),    // H
 
-  percent: Number(r[18] || 0),
-}));
+    percent: Number(r[11] || 0)*100, // L
+  }));
     // Danh sách nhóm thi đua
     const groups = [
       ...new Set(
