@@ -95,8 +95,8 @@ const thiDuaTGDD =
     🚚 STRAM Tracking
   </Link>
 </div>
-      <h1 className="text-3xl font-bold mb-6 text-white">
-        📊 Dashboard Hiệu Quả Nhân Viên
+      <h1 className="text-3xl font-bold mb-6 text-black">
+        📊 Dashboard Cụm ST 3947
       </h1>
 
       {/* KPI TỔNG */}
