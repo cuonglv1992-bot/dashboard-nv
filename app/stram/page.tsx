@@ -245,7 +245,28 @@ export default function StramPage() {
 
   return (
     <div className="p-4 bg-slate-100 min-h-screen">
+<div className="bg-white rounded-xl p-3 mb-6 shadow flex gap-2">
+  <Link
+    href="/"
+    className="px-4 py-2 rounded-lg bg-slate-100"
+  >
+    📊 Hiệu Quả NV
+  </Link>
 
+  <Link
+    href="/stram"
+    className="px-4 py-2 rounded-lg bg-slate-100"
+  >
+    📍 STRAM
+  </Link>
+
+  <Link
+    href="/stram-tracking"
+    className="px-4 py-2 rounded-lg bg-slate-100"
+  >
+    🚚 STRAM Tracking
+  </Link>
+</div>
       {/* DML */}
       <div className="mb-8">
         <div className="bg-blue-700 text-white font-bold text-lg px-4 py-2 rounded-t-xl">
