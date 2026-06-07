@@ -2,21 +2,25 @@
 
 export const revalidate = 30;
 
+const baseUrl =
+  process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
+
 async function getDashboard() {
   const res = await fetch(
-    "http://localhost:3000/api/dashboard",
+    `${baseUrl}/api/dashboard`,
     {
       cache: "no-store",
     }
   );
 
   return res.json();
-
 }
 
 async function getBanKem() {
   const res = await fetch(
-    "http://localhost:3000/api/bankem",
+    `${baseUrl}/api/bankem`,
     {
       cache: "no-store",
     }
@@ -30,12 +34,13 @@ export default async function Home() {
   const bankem = await getBanKem();
 
   const thiDuaRes = await fetch(
-    "http://localhost:3000/api/thidua",
+    `${baseUrl}/api/thidua`,
     {
       cache: "no-store",
     }
   );
 
+ 
   const thiDua =
     await thiDuaRes.json();
 
