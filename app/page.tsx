@@ -1,6 +1,6 @@
 
-
-export const revalidate = 30;
+import Link from "next/link";
+export const revalidate = 10;
 
 const baseUrl =
   process.env.NODE_ENV === "development"
@@ -72,7 +72,29 @@ const thiDuaTGDD =
   data.thiDuaTGDD || [];
   
   return (
-    <main className="min-h-screen bg-black text-back p-6">
+   <main className="min-h-screen bg-slate-100 text-black p-6">
+    <div className="bg-white rounded-xl p-3 mb-6 shadow flex gap-2">
+  <Link
+    href="/"
+    className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold"
+  >
+    📊 Hiệu Quả NV
+  </Link>
+
+  <Link
+    href="/stram"
+    className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold"
+  >
+    📍 STRAM
+  </Link>
+
+  <Link
+    href="/stram-tracking"
+    className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold"
+  >
+    🚚 STRAM Tracking
+  </Link>
+</div>
       <h1 className="text-3xl font-bold mb-6 text-white">
         📊 Dashboard Hiệu Quả Nhân Viên
       </h1>
@@ -1009,5 +1031,6 @@ const thiDuaTGDD =
           </table>
         </div>
     </main>
+    
   );
 }

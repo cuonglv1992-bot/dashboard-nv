@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function StramPage() {
@@ -12,12 +13,36 @@ export default function StramPage() {
   }, []);
 
   if (!data) {
-    return (
-      <div className="p-6">
-        Đang tải dữ liệu...
+  return (
+    <div className="p-6">
+
+      <div className="bg-white rounded-xl p-3 mb-6 shadow flex gap-2">
+        <Link
+          href="/"
+          className="px-4 py-2 rounded-lg bg-slate-100"
+        >
+          📊 Hiệu Quả NV
+        </Link>
+
+        <Link
+          href="/stram"
+          className="px-4 py-2 rounded-lg bg-slate-100"
+        >
+          📍 STRAM
+        </Link>
+
+        <Link
+          href="/stram-tracking"
+          className="px-4 py-2 rounded-lg bg-slate-100"
+        >
+          🚚 STRAM Tracking
+        </Link>
       </div>
-    );
-  }
+
+      Đang tải dữ liệu...
+    </div>
+  );
+}
 
   const renderResultTable = (
     title: string,
