@@ -3,9 +3,9 @@
 export const revalidate = 30;
 
 const baseUrl =
-  process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://dashboard-nv-six.vercel.app";
 
 async function getDashboard() {
   const res = await fetch(
@@ -15,7 +15,12 @@ async function getDashboard() {
     }
   );
 
-  return res.json();
+  const text = await res.text();
+
+  console.log("DASHBOARD RESPONSE:");
+  console.log(text.substring(0, 200));
+
+  return JSON.parse(text);
 }
 
 async function getBanKem() {
@@ -26,7 +31,12 @@ async function getBanKem() {
     }
   );
 
-  return res.json();
+  const text = await res.text();
+
+console.log("DASHBOARD RESPONSE:");
+console.log(text.substring(0, 200));
+
+return JSON.parse(text);
 }
 
 export default async function Home() {
@@ -34,16 +44,22 @@ export default async function Home() {
   const bankem = await getBanKem();
 
   const thiDuaRes = await fetch(
-    `${baseUrl}/api/thidua`,
-    {
-      cache: "no-store",
-    }
-  );
+  `${baseUrl}/api/thidua`,
+  {
+    cache: "no-store",
+  }
+);
+
+console.log("thidua status", thiDuaRes.status);
+console.log("thidua url", thiDuaRes.url);
 
  
-  const thiDua =
-    await thiDuaRes.json();
+  const text = await thiDuaRes.text();
 
+console.log("THIDUA RESPONSE:");
+console.log(text.substring(0, 200));
+
+const thiDua = JSON.parse(text);
   const thiDuaGroups =
     thiDua.groups || [];
 
