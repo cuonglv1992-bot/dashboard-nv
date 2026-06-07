@@ -17,8 +17,7 @@ async function getDashboard() {
 
   const text = await res.text();
 
-  console.log("DASHBOARD RESPONSE:");
-  console.log(text.substring(0, 200));
+  
 
   return JSON.parse(text);
 }
@@ -33,8 +32,7 @@ async function getBanKem() {
 
   const text = await res.text();
 
-console.log("DASHBOARD RESPONSE:");
-console.log(text.substring(0, 200));
+
 
 return JSON.parse(text);
 }
@@ -50,14 +48,12 @@ export default async function Home() {
   }
 );
 
-console.log("thidua status", thiDuaRes.status);
-console.log("thidua url", thiDuaRes.url);
+
 
  
   const text = await thiDuaRes.text();
 
-console.log("THIDUA RESPONSE:");
-console.log(text.substring(0, 200));
+
 
 const thiDua = JSON.parse(text);
   const thiDuaGroups =
